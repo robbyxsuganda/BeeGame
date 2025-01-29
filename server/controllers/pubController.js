@@ -1,3 +1,4 @@
+const gemini = require("../helpers/gemini");
 const { Game } = require("../models");
 
 class PublicController {
@@ -42,11 +43,22 @@ class PublicController {
         throw { name: "NotFound" };
       }
 
-      res.status(200).json({
-        message: "Success Read Game",
-        game,
-      });
+      res.status(200).json(game);
     } catch (error) {
+      next(error);
+    }
+  }
+
+  static async generateAI(req, res, next) {
+    try {
+      const { keywoard } = req.query;
+      // console.log(keywoard);
+
+      const result = await gemini(keywoard);
+      res.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+
       next(error);
     }
   }
