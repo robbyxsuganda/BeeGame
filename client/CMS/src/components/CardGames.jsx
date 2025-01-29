@@ -86,7 +86,7 @@ export default function CardGames() {
                 <button className="bg-blue-500 cursor-pointer text-white p-2 rounded-full hover:bg-blue-600" onClick={() => navigate(`/edit-game/${game?.id}`)} title="Edit Game">
                   <i className="fas fa-edit" />
                 </button>
-                <button className="bg-green-500 cursor-pointer text-white p-2 rounded-full hover:bg-green-600" onClick="changeImage(1)" title="Change Image">
+                <button className="bg-green-500 cursor-pointer text-white p-2 rounded-full hover:bg-green-600" title="Change Image">
                   <i className="fas fa-image" />
                 </button>
                 <button className="bg-red-500 cursor-pointer text-white p-2 rounded-full hover:bg-red-600" onClick={() => handleDelete(game?.id)} title="Delete Game">
