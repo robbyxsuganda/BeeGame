@@ -1,5 +1,7 @@
+const { Category } = require("../models");
+
 class CategoryController {
-  static async read(req, res) {
+  static async read(req, res, next) {
     try {
       const categories = await Category.findAll();
 

@@ -14,6 +14,25 @@ class PublicController {
     }
   }
 
+  static async readByCategory(req, res, next) {
+    try {
+      const { CategoryId } = req.params;
+
+      const CategoryGame = await Game.findAll({
+        where: {
+          CategoryId,
+        },
+      });
+
+      if (!CategoryGame || CategoryGame.length === 0) {
+        throw { name: "NotFound" };
+      }
+      res.status(200).json(CategoryGame);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async readOne(req, res, next) {
     try {
       const { id } = req.params;

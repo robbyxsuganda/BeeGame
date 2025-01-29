@@ -29,6 +29,11 @@ const errorHandler = (error, req, res, next) => {
     status = 400;
   }
 
+  if (error.name === "BadRequestImage") {
+    message = "Image is required";
+    status = 400;
+  }
+
   if (error.name === "LoginError") {
     message = "Invalid email or password";
     status = 401;

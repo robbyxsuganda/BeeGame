@@ -20,7 +20,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "Pc Game",
+        name: "PC Game",
         createdAt: new Date(),
         updatedAt: new Date(),
       },

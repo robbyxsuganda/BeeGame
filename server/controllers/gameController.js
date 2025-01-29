@@ -1,4 +1,5 @@
 const { Game } = require("../models");
+const cloudinary = require("../utils/cloudinary");
 
 class GameController {
   static async create(req, res, next) {
@@ -13,7 +14,9 @@ class GameController {
 
   static async read(req, res, next) {
     try {
-      const games = await Game.findAll();
+      const games = await Game.findAll({
+        include: "Category",
+      });
 
       res.status(200).json({
         message: "Success Read Games",
@@ -86,8 +89,34 @@ class GameController {
 
   static async updateImage(req, res, next) {
     try {
-      res.status(200).json({ message: "Game Controller" });
+      if (!req.file) throw { name: "BadRequestImage" };
+
+      const { id } = req.params;
+      const game = await Game.findByPk(id);
+
+      if (!game) {
+        throw { name: "NotFound" };
+      }
+
+      const base64Data = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
+
+      const uploadResult = await cloudinary.uploader.upload(base64Data, {
+        public_id: `game-${id}-${Date.now()}`,
+        tags: ["games"],
+        resource_type: "auto",
+      });
+
+      const imageUrl = uploadResult.secure_url;
+
+      await game.update({ image: imageUrl });
+
+      res.status(200).json({
+        message: "Success Update Game Image",
+        imageUrl,
+        game,
+      });
     } catch (error) {
+      // console.log(error, "error di cloudinary");
       next(error);
     }
   }
