@@ -1,13 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const GameContoller = require("../controllers/GameContoller");
-const authorization = require("../middlewares/authorization");
+const GameController = require("../controllers/gameController");
 
-router.post("/", GameContoller.create);
-router.get("/", GameContoller.read);
-router.get("/:id", GameContoller.readById);
-router.put("/:id", authorization, GameContoller.update);
-router.delete("/:id", authorization, GameContoller.delete);
-router.patch("/:id", authorization, GameContoller.updateImage);
+router.post("/", GameController.create); // hanya admin yang bisa
+router.get("/", GameController.read);
+router.get("/:id", GameController.readOne);
+router.put("/:id", GameController.update); // hanya admin yang bisa
+router.delete("/:id", GameController.delete); // hanya admin yang bisa
+router.patch("/:id", GameController.updateImage); // hanya admin yang bisa
 
 module.exports = router;
