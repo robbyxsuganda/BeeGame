@@ -124,8 +124,6 @@ export default function CardGames() {
         {/* Game Card with Management Options */}
         {games?.map((game) => (
           <div key={game?.id} className="bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-            {/* Hidden file input */}
-            <input type="file" id={`fileInput-${game.id}`} className="hidden" onChange={(e) => handleUpload(e, game?.id)} accept="image/*" />
             <div className="relative overflow-hidden rounded-lg mb-4">
               <img src={game?.image} alt={game?.title} className="w-full h-40 object-cover" />
               <div className="absolute top-2 right-2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">{game?.Category?.name}</div>
@@ -133,10 +131,6 @@ export default function CardGames() {
               <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center space-x-4">
                 <button className="bg-blue-500 cursor-pointer text-white p-2 rounded-full hover:bg-blue-600" onClick={() => navigate(`/edit-game/${game?.id}`)} title="Edit Game">
                   <i className="fas fa-edit" />
-                </button>
-                {/* Update the Change Image button to trigger file input */}
-                <button className="bg-green-500 cursor-pointer text-white p-2 rounded-full hover:bg-green-600" onClick={() => document.getElementById(`fileInput-${game.id}`).click()} title="Change Image">
-                  <i className="fas fa-image" />
                 </button>
                 <button className="bg-red-500 cursor-pointer text-white p-2 rounded-full hover:bg-red-600" onClick={() => handleDelete(game?.id)} title="Delete Game">
                   <i className="fas fa-trash" />
@@ -146,6 +140,10 @@ export default function CardGames() {
             <h3 className="font-semibold text-gray-800">{game?.title}</h3>
             <p className="text-sm text-gray-600">{game?.developer}</p>
             <div className="mt-2 text-sm text-gray-500">{game?.updatedAt}</div>
+            <input type="file" id={`uploadFile${game?.id}`} className="hidden" onChange={(e) => handleUpload(e, game?.id)} />
+            <label className="icon material-symbols-outlined text-danger ms-3" htmlFor={`uploadFile${game?.id}`} style={{ cursor: "pointer" }}>
+              Ganti Gambar
+            </label>
           </div>
         ))}
         {/* More game cards will be dynamically added here */}

@@ -52,6 +52,19 @@ export default function Login() {
 
   useEffect(() => {
     if (localStorage.access_token) {
+      Toastify({
+        text: "You already logged in",
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "#F87171",
+          color: "#000000",
+        },
+      }).showToast();
       navigate("/");
     }
   }, [navigate]);
