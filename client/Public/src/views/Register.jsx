@@ -1,6 +1,72 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Toastify from "toastify-js";
 
 export default function Register() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios({
+        method: "POST",
+        url: "http://localhost:3000/register",
+        data: { username, email, password },
+      });
+      //   console.log(data);
+
+      Toastify({
+        text: `${data.message}`,
+        duration: 3000,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
+
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+      Toastify({
+        text: `${error.response.data.message}`,
+        duration: 3000,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.access_token) {
+      Toastify({
+        text: "You already logged in",
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "#F87171",
+          color: "#000000",
+        },
+      }).showToast();
+      navigate("/");
+    }
+  }, [navigate]);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <div className="w-full max-w-md px-6 py-8 transform transition-all duration-300">
@@ -17,7 +83,7 @@ export default function Register() {
 
         <div className="bg-white rounded-xl shadow-2xl p-8 hover:shadow-xl transition-shadow duration-300">
           {/* Register Form */}
-          <form className="space-y-6" action="#" method="POST">
+          <form onSubmit={handleSubmit} className="space-y-6" action="#" method="POST">
             <div>
               <label htmlFor="username" className="block text-sm font-semibold text-gray-700 mb-1">
                 Username
@@ -29,6 +95,7 @@ export default function Register() {
                 <input
                   id="username"
                   name="username"
+                  onChange={(e) => setUsername(e.target.value)}
                   type="text"
                   autoComplete="username"
                   required
@@ -49,6 +116,7 @@ export default function Register() {
                 <input
                   id="email"
                   name="email"
+                  onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   autoComplete="email"
                   required
@@ -69,6 +137,7 @@ export default function Register() {
                 <input
                   id="password"
                   name="password"
+                  onChange={(e) => setPassword(e.target.value)}
                   type="password"
                   autoComplete="current-password"
                   required
