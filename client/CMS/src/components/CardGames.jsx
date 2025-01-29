@@ -65,7 +65,7 @@ export default function CardGames() {
     try {
       const file = e.target.files[0];
 
-      console.log(file, "ini loh");
+      // console.log(file, "ini loh");
 
       if (!file) return;
 
@@ -120,30 +120,42 @@ export default function CardGames() {
   return (
     <>
       {/* Game Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
         {/* Game Card with Management Options */}
         {games?.map((game) => (
-          <div key={game?.id} className="bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-            <div className="relative overflow-hidden rounded-lg mb-4">
-              <img src={game?.image} alt={game?.title} className="w-full h-40 object-cover" />
-              <div className="absolute top-2 right-2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">{game?.Category?.name}</div>
+          <div key={game?.id} className="bg-white rounded-xl shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-2xl">
+            <div className="relative overflow-hidden rounded-t-xl">
+              <img src={game?.image} alt={game?.title} className="w-full h-48 object-cover transform transition duration-300 hover:scale-110" />
+              <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg">{game?.Category?.name}</div>
               {/* Management Overlay */}
-              <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center space-x-4">
-                <button className="bg-blue-500 cursor-pointer text-white p-2 rounded-full hover:bg-blue-600" onClick={() => navigate(`/edit-game/${game?.id}`)} title="Edit Game">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent opacity-0 hover:opacity-100 transition-all duration-300 flex items-center justify-center space-x-4">
+                <button className="bg-blue-500 text-white p-3 rounded-full hover:bg-blue-600 transform transition hover:scale-110 shadow-lg" onClick={() => navigate(`/edit-game/${game?.id}`)} title="Edit Game">
                   <i className="fas fa-edit" />
                 </button>
-                <button className="bg-red-500 cursor-pointer text-white p-2 rounded-full hover:bg-red-600" onClick={() => handleDelete(game?.id)} title="Delete Game">
+                <button className="bg-red-500 text-white p-3 rounded-full hover:bg-red-600 transform transition hover:scale-110 shadow-lg" onClick={() => handleDelete(game?.id)} title="Delete Game">
                   <i className="fas fa-trash" />
                 </button>
               </div>
             </div>
-            <h3 className="font-semibold text-gray-800">{game?.title}</h3>
-            <p className="text-sm text-gray-600">{game?.developer}</p>
-            <div className="mt-2 text-sm text-gray-500">{game?.updatedAt}</div>
-            <input type="file" id={`uploadFile${game?.id}`} className="hidden" onChange={(e) => handleUpload(e, game?.id)} />
-            <label className="icon material-symbols-outlined text-danger ms-3" htmlFor={`uploadFile${game?.id}`} style={{ cursor: "pointer" }}>
-              Ganti Gambar
-            </label>
+            <div className="p-4">
+              <h3 className="font-bold text-xl text-gray-800 mb-2">{game?.title}</h3>
+              <p className="text-sm text-gray-600 mb-2">
+                <i className="fas fa-code-branch mr-2"></i>
+                {game?.developer}
+              </p>
+              <div className="text-xs text-gray-500 mb-4">
+                <i className="far fa-clock mr-2"></i>
+                {new Date(game?.updatedAt).toLocaleDateString()}
+              </div>
+              <input type="file" id={`uploadFile${game?.id}`} className="hidden" onChange={(e) => handleUpload(e, game?.id)} accept="image/*" />
+              <label
+                htmlFor={`uploadFile${game?.id}`}
+                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg cursor-pointer hover:from-purple-600 hover:to-purple-700 transition duration-300 shadow-md"
+              >
+                <i className="fas fa-camera mr-2"></i>
+                Ganti Gambar
+              </label>
+            </div>
           </div>
         ))}
         {/* More game cards will be dynamically added here */}

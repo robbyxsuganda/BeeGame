@@ -1,10 +1,12 @@
 const gemini = require("../helpers/gemini");
-const { Game } = require("../models");
+const { Game, Category } = require("../models");
 
 class PublicController {
   static async read(req, res, next) {
     try {
-      const games = await Game.findAll();
+      const games = await Game.findAll({
+        include: Category,
+      });
 
       res.status(200).json({
         message: "Success Read Games",
@@ -51,10 +53,17 @@ class PublicController {
 
   static async generateAI(req, res, next) {
     try {
-      const { keywoard } = req.query;
-      // console.log(keywoard);
-
-      const result = await gemini(keywoard);
+      const prompt = `Give me the 6 most popular games PC and Mobile right now. Response must be a format JSON like this 
+      [
+        {
+          title: ....,
+          developer: ....,
+          image: image url active,
+          category: PC or Mobile choose one,
+        }
+      ]
+      . Create without \`\`\` json and \`\`\``;
+      const result = await gemini(prompt);
       res.status(200).json(result);
     } catch (error) {
       console.log(error);

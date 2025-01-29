@@ -67,7 +67,7 @@ export default function PopulerGames() {
           ) : (
             <>
               {populerGame?.map((game) => (
-                <div key={game.id} className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
+                <div key={game?.title} className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
                   <img src={game?.image || "placeholder-image.jpg"} alt={game?.title} className="w-full h-48 object-cover hover:opacity-90 transition-opacity duration-300" />
                   <div className="p-4">
                     <h3 className="font-bold text-gray-800 mb-2 line-clamp-1">{game?.title}</h3>

@@ -13,7 +13,7 @@ router.get("/pub/games/:CategoryId", PubController.readByCategory);
 router.post("/register", AuthController.register);
 router.post("/login", AuthController.login);
 
-router.post("/ai", PubController.generateAI);
+router.get("/ai", PubController.generateAI);
 
 router.use(authentication);
 
