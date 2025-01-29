@@ -1,23 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const cuisineRoute = require("./cuisine");
-const categoryRoute = require("./category");
-const Controller = require("../controllers/controller");
-const AuthController = require("../controllers/authController");
-const authentication = require("../middlewares/authentication");
-const authorization = require("../middlewares/authorization");
+const PubController = require("../controllers/pubController");
+const AuthController = require("../controllers/AuthController");
 const errorHandler = require("../middlewares/errorHandler");
+// const categoryRoute = require("./categoriesRoute");
+// const gamesRoute = require("./gamesRoute");
 
-router.get("/pub", Controller.read); // buat customer dapetin data cuisine, datanya di batesin pake pagination
-router.get("/pub/:id", Controller.readById);
-router.post("/login", AuthController.login);
+router.get("/pub", PubController.read);
+router.get("/pub/:id", PubController.readOne);
+router.post("/register", AuthController.register);
+// router.post("/login");
 
-router.use(authentication);
-
-router.post("/add-user", authorization, AuthController.addUser);
-
-router.use("/cuisines", cuisineRoute); // entitas utama
-router.use("/categories", categoryRoute); // entitas support
+// router.use("/games", gamesRoute); // entitas utama
+// router.use("/categories", categoryRoute); // entitas support
 
 router.use(errorHandler);
 
