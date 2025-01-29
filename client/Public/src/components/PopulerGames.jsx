@@ -1,47 +1,85 @@
+import axios from "axios";
+import { useState } from "react";
 import { Link } from "react-router";
 
 export default function PopulerGames() {
+  const [populerGame, setPopulerGame] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchPopulerGame = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios({
+        method: "GET",
+        url: "http://localhost:3000/ai/",
+      });
+      console.log(data, "ini data");
+      setPopulerGame(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGenerate = () => {
+    fetchPopulerGame();
+  };
+
   return (
     <>
       {/* Popular Games */}
-      <section className="container mx-auto px-4 py-12">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Game Populer</h2>
-          <Link to="/games" className="text-blue-600 hover:text-blue-700">
-            Lihat Semua
+      <section className="container mx-auto px-4 py-12 bg-gradient-to-b from-gray-50 to-white">
+        <div className="flex justify-between items-center mb-8">
+          <div className="flex gap-4 items-center justify-center">
+            <h2 className="text-3xl font-bold text-gray-800 relative">
+              Game Populer
+              <span className="absolute -bottom-2 left-0 w-1/2 h-1 bg-blue-500 rounded-full"></span>
+            </h2>
+            <button onClick={handleGenerate} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  fillRule="evenodd"
+                  d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              Generate
+            </button>
+          </div>
+          <Link to="/games" className="text-blue-600 hover:text-blue-700 font-medium hover:underline transition-all duration-300">
+            Lihat Semua →
           </Link>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          <div className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <img src="https://via.placeholder.com/150" alt="Mobile Legends" className="w-full rounded-lg mb-3" />
-            <h3 className="font-semibold text-gray-800">Mobile Legends</h3>
-            <p className="text-sm text-gray-600">Moonton</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <img src="https://via.placeholder.com/150" alt="PUBG Mobile" className="w-full rounded-lg mb-3" />
-            <h3 className="font-semibold text-gray-800">PUBG Mobile</h3>
-            <p className="text-sm text-gray-600">Tencent Games</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <img src="https://via.placeholder.com/150" alt="Free Fire" className="w-full rounded-lg mb-3" />
-            <h3 className="font-semibold text-gray-800">Free Fire</h3>
-            <p className="text-sm text-gray-600">Garena</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <img src="https://via.placeholder.com/150" alt="Genshin Impact" className="w-full rounded-lg mb-3" />
-            <h3 className="font-semibold text-gray-800">Genshin Impact</h3>
-            <p className="text-sm text-gray-600">miHoYo</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <img src="https://via.placeholder.com/150" alt="Valorant" className="w-full rounded-lg mb-3" />
-            <h3 className="font-semibold text-gray-800">Valorant</h3>
-            <p className="text-sm text-gray-600">Riot Games</p>
-          </div>
-          <div className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <img src="https://via.placeholder.com/150" alt="Call of Duty" className="w-full rounded-lg mb-3" />
-            <h3 className="font-semibold text-gray-800">Call of Duty</h3>
-            <p className="text-sm text-gray-600">Activision</p>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
+          {loading ? (
+            <>
+              {[...Array(6)].map((_, index) => (
+                <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden animate-pulse">
+                  <div className="h-48 bg-gray-200"></div>
+                  <div className="p-4">
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                  </div>
+                </div>
+              ))}
+            </>
+          ) : (
+            <>
+              {populerGame?.map((game) => (
+                <div key={game.id} className="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
+                  <img src={game?.image || "placeholder-image.jpg"} alt={game?.title} className="w-full h-48 object-cover hover:opacity-90 transition-opacity duration-300" />
+                  <div className="p-4">
+                    <h3 className="font-bold text-gray-800 mb-2 line-clamp-1">{game?.title}</h3>
+                    <p className=" text-gray-600 mb-2 line-clamp-1">{game?.developer}</p>
+                    <div className="flex items-center gap-2">
+                      <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">{game?.category}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </section>
     </>
