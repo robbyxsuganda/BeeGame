@@ -1,7 +1,12 @@
 class CategoryController {
   static async read(req, res) {
     try {
-      res.status(200).json({ message: "Category Controller" });
+      const categories = await Category.findAll();
+
+      res.status(200).json({
+        message: "Success Read Categories",
+        categories,
+      });
     } catch (error) {
       next(error);
     }
