@@ -1,7 +1,25 @@
 import { Link, NavLink, useNavigate } from "react-router";
+import Toastify from "toastify-js";
 
 export default function Navbar() {
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    Toastify({
+      text: "Logout Success",
+      duration: 3000,
+      gravity: "bottom", // `top` or `bottom`
+      position: "right", // `left`, `center` or `right`
+      stopOnFocus: true, // Prevents dismissing of toast on hover
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+      },
+      onClick: function () {}, // Callback after click
+    }).showToast();
+    navigate("/");
+  };
+
   return (
     <>
       {/* Header */}
@@ -35,11 +53,20 @@ export default function Navbar() {
                 <i className="fas fa-search absolute right-4 top-3 text-gray-400" />
               </div>
               <div className="flex items-center space-x-4">
-                <Link to="/login" className="text-gray-600 hover:text-blue-600">
-                  {" "}
-                  <i className="fas fa-user mr-2" />
-                  Login{" "}
-                </Link>
+                {localStorage.getItem("access_token") ? (
+                  <>
+                    <div onClick={handleLogout} className="cursor-pointer text-gray-600 hover:text-blue-600">
+                      <i className="fas fa-sign-out-alt mr-2" />
+                      Logout{" "}
+                    </div>
+                  </>
+                ) : (
+                  <Link to="/login" className="text-gray-600 hover:text-blue-600">
+                    {" "}
+                    <i className="fas fa-user mr-2" />
+                    Login{" "}
+                  </Link>
+                )}
               </div>
             </div>
           </div>
