@@ -61,6 +61,52 @@ export default function CardGames() {
     }
   };
 
+  const handleUpload = async (e, id) => {
+    try {
+      const file = e.target.files[0];
+
+      console.log(file, "ini loh");
+
+      if (!file) return;
+
+      let formData = new FormData();
+      formData.append("file", file);
+
+      const { data } = await axios({
+        method: "PATCH",
+        url: `http://localhost:3000/games/${id}`,
+        headers: {
+          Authorization: `Bearer ${localStorage.access_token}`,
+        },
+        data: formData,
+      });
+
+      dispatch(fetchAsync());
+
+      Toastify({
+        text: `${data.message}`,
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+      }).showToast();
+    } catch (error) {
+      Toastify({
+        text: `${error.response.data.message}`,
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        stopOnFocus: true,
+        style: {
+          background: "linear-gradient(to right, #ff416c, #ff4b2b)",
+        },
+      }).showToast();
+    }
+  };
+
   if (loading) {
     return (
       <>
@@ -78,6 +124,8 @@ export default function CardGames() {
         {/* Game Card with Management Options */}
         {games?.map((game) => (
           <div key={game?.id} className="bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
+            {/* Hidden file input */}
+            <input type="file" id={`fileInput-${game.id}`} className="hidden" onChange={(e) => handleUpload(e, game?.id)} accept="image/*" />
             <div className="relative overflow-hidden rounded-lg mb-4">
               <img src={game?.image} alt={game?.title} className="w-full h-40 object-cover" />
               <div className="absolute top-2 right-2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">{game?.Category?.name}</div>
@@ -86,7 +134,8 @@ export default function CardGames() {
                 <button className="bg-blue-500 cursor-pointer text-white p-2 rounded-full hover:bg-blue-600" onClick={() => navigate(`/edit-game/${game?.id}`)} title="Edit Game">
                   <i className="fas fa-edit" />
                 </button>
-                <button className="bg-green-500 cursor-pointer text-white p-2 rounded-full hover:bg-green-600" title="Change Image">
+                {/* Update the Change Image button to trigger file input */}
+                <button className="bg-green-500 cursor-pointer text-white p-2 rounded-full hover:bg-green-600" onClick={() => document.getElementById(`fileInput-${game.id}`).click()} title="Change Image">
                   <i className="fas fa-image" />
                 </button>
                 <button className="bg-red-500 cursor-pointer text-white p-2 rounded-full hover:bg-red-600" onClick={() => handleDelete(game?.id)} title="Delete Game">

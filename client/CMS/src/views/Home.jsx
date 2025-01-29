@@ -1,6 +1,5 @@
 import ButtonAddGame from "../components/ButtonAddGame";
 import CardGames from "../components/CardGames";
-import Footer from "../components/Footer";
 
 export default function Home() {
   return (
@@ -15,8 +14,6 @@ export default function Home() {
           <CardGames />
         </section>
       </main>
-
-      <Footer />
     </>
   );
 }
