@@ -2,11 +2,56 @@ import { Link, useNavigate } from "react-router";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Toastify from "toastify-js";
+import { GoogleLogin } from "@react-oauth/google";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  const handleGoogleLogin = async (codeResponse) => {
+    try {
+      // console.log(codeResponse);
+
+      const { data } = await axios({
+        method: "POST",
+        url: "http://localhost:3000/google-login",
+        headers: {
+          token: codeResponse.credential,
+        },
+      });
+      // console.log(data);
+
+      localStorage.setItem("access_token", data.access_token);
+
+      Toastify({
+        text: "Login Success",
+        duration: 3000,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
+
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      Toastify({
+        text: `${error.response.data.message}`,
+        duration: 3000,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -148,21 +193,8 @@ export default function Login() {
               </div>
             </div>
 
-            <div className="mt-6 grid grid-cols-2 gap-4">
-              <button
-                type="button"
-                className="w-full cursor-pointer inline-flex justify-center items-center py-2.5 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
-              >
-                <i className="fab fa-google text-red-500 mr-2 text-lg" />
-                Google
-              </button>
-              <button
-                type="button"
-                className="w-full cursor-pointer inline-flex justify-center items-center py-2.5 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
-              >
-                <i className="fab fa-facebook text-blue-600 mr-2 text-lg" />
-                Facebook
-              </button>
+            <div className="flex justify-center mt-5">
+              <GoogleLogin onSuccess={handleGoogleLogin} />
             </div>
           </div>
         </div>

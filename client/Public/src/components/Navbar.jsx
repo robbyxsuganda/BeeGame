@@ -57,14 +57,17 @@ export default function Navbar() {
                   <>
                     <div onClick={handleLogout} className="cursor-pointer text-gray-600 hover:text-blue-600">
                       <i className="fas fa-sign-out-alt mr-2" />
-                      Logout{" "}
+                      Logout
                     </div>
+                    <Link to="/profile" className="text-gray-600 hover:text-blue-600 flex items-center">
+                      <i className="fas fa-user-circle mr-2" />
+                      Profile
+                    </Link>
                   </>
                 ) : (
-                  <Link to="/login" className="text-gray-600 hover:text-blue-600">
-                    {" "}
+                  <Link to="/login" className="text-gray-600 hover:text-blue-600 flex items-center">
                     <i className="fas fa-user mr-2" />
-                    Login{" "}
+                    Login
                   </Link>
                 )}
               </div>

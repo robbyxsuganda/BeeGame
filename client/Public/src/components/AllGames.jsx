@@ -3,10 +3,12 @@ import { fetchAsync } from "../features/games/games-slice";
 import { useEffect } from "react";
 import Toastify from "toastify-js";
 import gifLoading from "../assets/Pulse-1s-284px.svg";
+import { useNavigate } from "react-router";
 
 export default function AllGames() {
   const { games, loading, error } = useSelector((state) => state.gamesReducer);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchAsync());
@@ -54,7 +56,9 @@ export default function AllGames() {
               </div>
               <h3 className="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">{game?.title}</h3>
               <p className="text-sm text-gray-600 mb-4">{game?.developer}</p>
-              <button className="text-sm bg-blue-100 text-blue-600 px-6 py-2 rounded-full hover:bg-blue-200 transition-colors">Top Up</button>
+              <button onClick={() => navigate(`/detail/${game?.id}`)} className="text-sm bg-blue-100 text-blue-600 px-6 py-2 rounded-full hover:bg-blue-200 transition-colors">
+                Top Up
+              </button>
             </div>
           ))}
         </div>
