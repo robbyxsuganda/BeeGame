@@ -2,8 +2,52 @@ const { compare } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
 const { User } = require("../models");
 const { OAuth2Client } = require("google-auth-library");
+const cloudinary = require("../utils/cloudinary");
 
 class AuthController {
+  static async readProfile(req, res, next) {
+    try {
+      const { userId } = req.loginInfo;
+      const user = await User.findByPk(userId);
+      res.status(200).json(user);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async changeProfile(req, res, next) {
+    try {
+      if (!req.file) throw { name: "BadRequestImage" };
+
+      const { id } = req.params;
+      const users = await User.findByPk(id);
+
+      if (!users) {
+        throw { name: "NotFound" };
+      }
+
+      const base64Data = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
+
+      const uploadResult = await cloudinary.uploader.upload(base64Data, {
+        public_id: `users-${id}-${Date.now()}`,
+        tags: ["userss"],
+        resource_type: "auto",
+      });
+
+      const imageUrl = uploadResult.secure_url;
+
+      await users.update({ image: imageUrl });
+
+      res.status(200).json({
+        message: "Success Update users Image",
+        imageUrl,
+      });
+    } catch (error) {
+      // console.log(error, "error di cloudinary");
+      next(error);
+    }
+  }
+
   static async register(req, res, next) {
     try {
       const { username, email, password } = req.body;

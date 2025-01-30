@@ -6,6 +6,7 @@ const gamesRoute = require("./gamesRoute");
 const categoryRoute = require("./categoriesRoute");
 const authentication = require("../middlewares/authentication");
 const errorHandler = require("../middlewares/errorHandler");
+const upload = require("../utils/multer");
 
 router.get("/pub", PubController.read);
 router.get("/pub/:id", PubController.readOne);
@@ -17,6 +18,9 @@ router.post("/google-login", AuthController.googleLogin);
 router.get("/ai", PubController.generateAI);
 
 router.use(authentication);
+
+router.get("/profile", AuthController.readProfile);
+router.patch("/change-profile/:id", upload.single("file"), AuthController.changeProfile);
 
 router.use("/games", gamesRoute); // entitas utama
 router.use("/categories", categoryRoute); // entitas support
