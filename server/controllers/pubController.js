@@ -1,5 +1,5 @@
 const gemini = require("../helpers/gemini");
-const { Game, Category } = require("../models");
+const { Game, Category, Voucher } = require("../models");
 
 class PublicController {
   static async read(req, res, next) {
@@ -31,6 +31,15 @@ class PublicController {
         throw { name: "NotFound" };
       }
       res.status(200).json(CategoryGame);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async readVouchers(req, res, next) {
+    try {
+      const vouchers = await Voucher.findAll();
+      res.status(200).json(vouchers);
     } catch (error) {
       next(error);
     }

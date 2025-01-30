@@ -7,6 +7,7 @@ const categoryRoute = require("./categoriesRoute");
 const authentication = require("../middlewares/authentication");
 const errorHandler = require("../middlewares/errorHandler");
 const upload = require("../utils/multer");
+const Controller = require("../controllers/controller");
 
 router.get("/pub", PubController.read);
 router.get("/pub/:id", PubController.readOne);
@@ -15,9 +16,15 @@ router.post("/register", AuthController.register);
 router.post("/login", AuthController.login);
 router.post("/google-login", AuthController.googleLogin);
 
+router.get("/vouchers", PubController.readVouchers);
+
 router.get("/ai", PubController.generateAI);
 
 router.use(authentication);
+
+router.get("/payment", Controller.readOrders);
+router.get("/payment/midtrans", Controller.midtransToken);
+router.patch("/payment/status", Controller.updateOrderStatus);
 
 router.get("/profile", AuthController.readProfile);
 router.patch("/change-profile/:id", upload.single("file"), AuthController.changeProfile);

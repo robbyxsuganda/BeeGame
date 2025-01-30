@@ -44,6 +44,14 @@ export default function Navbar() {
                       Semua Game
                     </NavLink>
                   </li>
+                  {localStorage.access_token && (
+                    <li>
+                      <NavLink to="/transaction" className={({ isActive }) => (isActive ? "text-blue-700" : "text-gray-700 hover:text-blue-600 flex items-center")}>
+                        <i className="fas fa-money-check-alt mr-2" />
+                        Transaction
+                      </NavLink>
+                    </li>
+                  )}
                 </ul>
               </nav>
             </div>

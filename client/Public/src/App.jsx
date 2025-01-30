@@ -6,6 +6,7 @@ import Home from "./views/home";
 import Games from "./views/Games";
 import TopUp from "./views/TopUp";
 import Profile from "./views/Profile";
+import Transaction from "./views/Transaction";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
             <Route path="/games" element={<Games />} />
             <Route path="/detail/:id" element={<TopUp />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/transaction" element={<Transaction />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
