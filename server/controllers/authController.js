@@ -1,6 +1,7 @@
 const { compare } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
 const { User } = require("../models");
+const { OAuth2Client } = require("google-auth-library");
 
 class AuthController {
   static async register(req, res, next) {
@@ -33,6 +34,46 @@ class AuthController {
       }
 
       if (!compare(password, user.password)) throw { name: "LoginError" };
+
+      const payload = {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      };
+
+      const access_token = signToken(payload);
+
+      res.status(200).json({
+        access_token,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async googleLogin(req, res, next) {
+    try {
+      const { token } = req.headers;
+
+      const client = new OAuth2Client();
+
+      const ticket = await client.verifyIdToken({
+        idToken: token,
+        audience: process.env.OAUTH_GOOGLE_KEY,
+      });
+
+      const gPayload = ticket.getPayload();
+
+      const [user, created] = await User.findOrCreate({
+        where: {
+          email: gPayload.email,
+        },
+        defaults: {
+          email: gPayload.email,
+          password: "password_google",
+        },
+        hooks: false,
+      });
 
       const payload = {
         id: user.id,
