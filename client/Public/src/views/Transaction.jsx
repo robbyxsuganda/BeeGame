@@ -46,36 +46,34 @@ export default function Transaction() {
 
   return (
     <>
-      <div id="PAGE-HOME" className="p-3">
+      <div id="PAGE-HOME" className="p-3 flex-grow">
         {loading ? (
           <div className="mt-32 flex justify-center items-center">
             <img src={gearLoad} />
           </div>
         ) : (
-          <div className="overflow-x-auto p-10">
-            <table className="table">
+          <div className="overflow-x-auto p-10 flex justify-center">
+            <table className="table-auto border-collapse border border-gray-300 w-full max-w-4xl text-center">
               {/* head */}
               <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Order ID</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Paid Date</th>
+                <tr className="bg-gray-200">
+                  <th className="border border-gray-300 p-2">No</th>
+                  <th className="border border-gray-300 p-2">Order ID</th>
+                  <th className="border border-gray-300 p-2">Amount</th>
+                  <th className="border border-gray-300 p-2">Status</th>
+                  <th className="border border-gray-300 p-2">Paid Date</th>
                 </tr>
               </thead>
               <tbody>
-                {orders.map((order, idx) => {
-                  return (
-                    <tr className="hover" key={order.id}>
-                      <td>{idx + 1}</td>
-                      <td>{order.orderId}</td>
-                      <td>{order.amount}</td>
-                      <td>{order.status}</td>
-                      <td>{order.paidDate ? new Date(order.paidDate).toLocaleDateString("id") : "-"}</td>
-                    </tr>
-                  );
-                })}
+                {orders.map((order, idx) => (
+                  <tr className="hover:bg-gray-100" key={order.id}>
+                    <td className="border border-gray-300 p-2">{idx + 1}</td>
+                    <td className="border border-gray-300 p-2">{order.orderId}</td>
+                    <td className="border border-gray-300 p-2">{order.amount}</td>
+                    <td className="border border-gray-300 p-2">{order.status}</td>
+                    <td className="border border-gray-300 p-2">{order.paidDate ? new Date(order.paidDate).toLocaleDateString("id") : "-"}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

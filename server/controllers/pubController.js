@@ -1,18 +1,35 @@
+const { Op } = require("sequelize");
 const gemini = require("../helpers/gemini");
 const { Game, Category, Voucher } = require("../models");
 
 class PublicController {
   static async read(req, res, next) {
     try {
-      const games = await Game.findAll({
+      const { search } = req.query;
+
+      let queryOption = {
         include: Category,
-      });
+      };
+
+      //SEARCH
+      // endpoint?search=keyword
+      if (search !== " " && typeof search !== "undefined") {
+        queryOption.where = {
+          title: {
+            [Op.iLike]: `%${search}%`,
+          },
+        };
+      }
+
+      const games = await Game.findAll(queryOption);
 
       res.status(200).json({
         message: "Success Read Games",
         games,
       });
     } catch (error) {
+      console.log(error);
+
       next(error);
     }
   }

@@ -5,6 +5,7 @@ const initialState = {
   games: [],
   loading: false,
   error: "",
+  search: "",
 };
 
 export const gamesSlice = createSlice({
@@ -26,11 +27,14 @@ export const gamesSlice = createSlice({
       state.games = [];
       state.error = action.payload;
     },
+    setSearch(state, action) {
+      state.search = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { fetchPending, fetchSuccess, fetchReject } = gamesSlice.actions;
+export const { fetchPending, fetchSuccess, fetchReject, setSearch } = gamesSlice.actions;
 
 export const fetchAsync = () => async (dispatch) => {
   try {
@@ -38,7 +42,7 @@ export const fetchAsync = () => async (dispatch) => {
 
     const { data } = await axios({
       method: "GET",
-      url: "http://localhost:3000/pub",
+      url: `http://localhost:3000/pub`,
     });
 
     // console.log("Data dari API:", data);

@@ -29,7 +29,7 @@ class Controller {
         serverKey: "SB-Mid-server-zkJYKzoU6i37BXrZN_7BOWlD",
       });
 
-      console.log(snap);
+      // console.log(snap);
 
       const orderId = `trx-buy-${nanoid()}`;
 
@@ -66,12 +66,16 @@ class Controller {
   static async updateOrderStatus(req, res, next) {
     try {
       const { orderId } = req.body;
+      console.log(orderId, "kakaaa");
+
       // cari order bedasarkan order id
       const order = await Order.findOne({
         where: {
           orderId,
         },
       });
+
+      console.log(order);
 
       if (!order) throw { name: "NotFound" };
 

@@ -79,8 +79,8 @@ const Profile = () => {
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden">
         <div className="p-8">
-          <div className="text-center mb-8">
-            <img src={user?.image} alt="" />
+          <div className="flex justify-center mb-8">
+            <img className="rounded-full w-50" src={user?.image} alt="" />
           </div>
 
           <div className="flex justify-center mb-5">
@@ -97,25 +97,32 @@ const Profile = () => {
           <form className="space-y-6" action="#" method="POST" encType="multipart/form-data">
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700">Username</label>
+                <label className="block text-sm font-medium text-gray-700">Username:</label>
                 <input
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  disabled
                   type="text"
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700">Email</label>
-                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+                <label className="block text-sm font-medium text-gray-700">Email:</label>
+                <input
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled
+                  type="email"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                />
               </div>
 
-              <div>
+              {/* <div>
                 <div className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                   Save Changes
                 </div>
-              </div>
+              </div> */}
             </div>
           </form>
         </div>
