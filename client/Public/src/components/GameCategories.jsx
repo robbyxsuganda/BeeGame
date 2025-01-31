@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { baseUrl } from "../../api/baseUrl";
 
 export default function GameCategories() {
   const [games, setGames] = useState([]);
@@ -13,7 +14,7 @@ export default function GameCategories() {
     try {
       const { data } = await axios({
         method: "GET",
-        url: `http://localhost:3000/pub/games/${categoryId}`,
+        url: baseUrl + `/pub/games/${categoryId}`,
       });
       // console.log("Fetched data:", data);
       setGames(data);

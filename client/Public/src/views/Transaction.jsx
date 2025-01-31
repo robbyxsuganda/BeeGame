@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import gearLoad from "../assets/Gear-0.2s-264px.svg";
+import { baseUrl } from "../../api/baseUrl";
 
 export default function Transaction() {
   const [orders, setOrders] = useState([]);
@@ -12,7 +13,7 @@ export default function Transaction() {
       setLoading(true);
       const { data } = await axios({
         method: "GET",
-        url: `http://localhost:3000/payment`,
+        url: baseUrl + `/payment`,
         headers: {
           Authorization: `Bearer ${localStorage.access_token}`,
         },

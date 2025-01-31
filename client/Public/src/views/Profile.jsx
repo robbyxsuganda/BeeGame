@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Toastify from "toastify-js";
+import { baseUrl } from "../../api/baseUrl";
 
 const Profile = () => {
   const [user, setUser] = useState({});
@@ -11,7 +12,7 @@ const Profile = () => {
     try {
       const { data } = await axios({
         method: "GET",
-        url: `http://localhost:3000/profile`,
+        url: baseUrl + `/profile`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
@@ -42,7 +43,7 @@ const Profile = () => {
 
       const { data } = await axios({
         method: "PATCH",
-        url: `http://localhost:3000/change-profile/${id}`,
+        url: baseUrl`/change-profile/${id}`,
         headers: {
           Authorization: `Bearer ${localStorage.access_token}`,
         },

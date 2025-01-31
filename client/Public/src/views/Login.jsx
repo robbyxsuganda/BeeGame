@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Toastify from "toastify-js";
 import { GoogleLogin } from "@react-oauth/google";
+import { baseUrl } from "../../api/baseUrl";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ export default function Login() {
 
       const { data } = await axios({
         method: "POST",
-        url: "http://localhost:3000/google-login",
+        url: baseUrl + "/google-login",
         headers: {
           token: codeResponse.credential,
         },

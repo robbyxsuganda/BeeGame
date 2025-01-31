@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import axios from "axios";
 import { rupiah } from "../helpers/rupiah";
 import Swal from "sweetalert2";
+import { baseUrl } from "../../api/baseUrl";
 
 export default function TopUp() {
   const { id } = useParams();
@@ -15,7 +16,7 @@ export default function TopUp() {
     try {
       const { data } = await axios({
         method: "GET",
-        url: `http://localhost:3000/pub/${id}`,
+        url: baseUrl + `/pub/${id}`,
       });
       // console.log(data);
 
@@ -32,7 +33,7 @@ export default function TopUp() {
     try {
       const { data } = await axios({
         method: "GET",
-        url: "http://localhost:3000/vouchers",
+        url: baseUrl + "/vouchers",
       });
 
       // console.log(data);
@@ -58,13 +59,13 @@ export default function TopUp() {
 
   async function handleBuy() {
     try {
-      const { data } = await axios(`http://localhost:3000/payment/midtrans`, config);
+      const { data } = await axios(`${baseUrl}/payment/midtrans`, config);
 
       console.log(data, "kiko");
 
       window.snap.pay(data.transaction_token, {
         onSuccess: async function () {
-          const response = await axios.patch(`http://localhost:3000/payment/status`, { orderId: data.orderId }, config);
+          const response = await axios.patch(`${baseUrl}/payment/status`, { orderId: data.orderId }, config);
           Swal.fire({
             icon: "success",
             title: response.data.message,

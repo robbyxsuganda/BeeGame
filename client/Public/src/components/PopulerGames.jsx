@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link } from "react-router";
+import { baseUrl } from "../../api/baseUrl";
 
 export default function PopulerGames() {
   const [populerGame, setPopulerGame] = useState([]);
@@ -11,7 +12,7 @@ export default function PopulerGames() {
     try {
       const { data } = await axios({
         method: "GET",
-        url: "http://localhost:3000/ai/",
+        url: baseUrl + "/ai/",
       });
       console.log(data, "ini data");
       setPopulerGame(data);

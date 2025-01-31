@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { baseUrl } from "../../../api/baseUrl";
 
 const initialState = {
   games: [],
@@ -42,7 +43,7 @@ export const fetchAsync = () => async (dispatch) => {
 
     const { data } = await axios({
       method: "GET",
-      url: `http://localhost:3000/pub`,
+      url: baseUrl + `/pub`,
     });
 
     // console.log("Data dari API:", data);

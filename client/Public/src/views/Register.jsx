@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Toastify from "toastify-js";
+import { baseUrl } from "../../api/baseUrl";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -14,7 +15,7 @@ export default function Register() {
     try {
       const { data } = await axios({
         method: "POST",
-        url: "http://localhost:3000/register",
+        url: baseUrl + "/register",
         data: { username, email, password },
       });
       //   console.log(data);
