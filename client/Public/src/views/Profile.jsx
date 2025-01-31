@@ -43,7 +43,7 @@ const Profile = () => {
 
       const { data } = await axios({
         method: "PATCH",
-        url: baseUrl`/change-profile/${id}`,
+        url: baseUrl + `/change-profile/${id}`,
         headers: {
           Authorization: `Bearer ${localStorage.access_token}`,
         },
