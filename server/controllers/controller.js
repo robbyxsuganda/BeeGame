@@ -29,7 +29,7 @@ class Controller {
         serverKey: "SB-Mid-server-zkJYKzoU6i37BXrZN_7BOWlD",
       });
 
-      // console.log(snap);
+      // console.log(snap, "snapp");
 
       const orderId = `trx-buy-${nanoid()}`;
 
@@ -53,12 +53,15 @@ class Controller {
       };
 
       const { token } = await snap.createTransaction(parameter);
+
+      // console.log(token, "token");
+
       res.status(200).json({
         transaction_token: token,
         orderId,
       });
     } catch (error) {
-      console.log(error);
+      // console.log(error, "error midtrans");
       next(error);
     }
   }
