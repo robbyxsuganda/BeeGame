@@ -59,7 +59,7 @@ export default function Login() {
     try {
       const { data } = await axios({
         method: "POST",
-        url: "http://localhost:3000/login",
+        url: baseUrl + "/login",
         data: { email, password },
       });
       //   console.log(data);

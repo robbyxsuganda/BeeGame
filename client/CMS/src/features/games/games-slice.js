@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { baseUrl } from "../../../../Public/api/baseUrl";
 
 const initialState = {
   games: [],
@@ -38,7 +39,7 @@ export const fetchAsync = () => async (dispatch) => {
 
     const { data } = await axios({
       method: "GET",
-      url: "http://localhost:3000/games",
+      url: baseUrl + "/games",
       headers: {
         Authorization: `Bearer ${localStorage.access_token}`,
       },

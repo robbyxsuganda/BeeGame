@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import Toastify from "toastify-js";
 import gifLoading from "../assets/Pulse-1s-284px.svg";
+import { baseUrl } from "../../../Public/api/baseUrl";
 
 export default function CardGames() {
   const { games, loading, error } = useSelector((state) => state.gamesReducer);
@@ -36,7 +37,7 @@ export default function CardGames() {
     try {
       const { data } = await axios({
         method: "DELETE",
-        url: `http://localhost:3000/games/${id}`,
+        url: baseUrl`/games/${id}`,
         headers: {
           Authorization: `Bearer ${localStorage.access_token}`,
         },
@@ -74,7 +75,7 @@ export default function CardGames() {
 
       const { data } = await axios({
         method: "PATCH",
-        url: `http://localhost:3000/games/${id}`,
+        url: baseUrl + `/games/${id}`,
         headers: {
           Authorization: `Bearer ${localStorage.access_token}`,
         },

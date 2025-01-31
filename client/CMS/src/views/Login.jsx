@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import { useEffect } from "react";
 import Toastify from "toastify-js";
+import { baseUrl } from "../../../Public/api/baseUrl";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -14,7 +15,7 @@ export default function Login() {
     try {
       const { data } = await axios({
         method: "POST",
-        url: "http://localhost:3000/login",
+        url: baseUrl + "/login",
         data: { email, password },
       });
       //   console.log(data);

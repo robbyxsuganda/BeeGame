@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import gifLoading from "../assets/Pulse-1s-284px.svg";
 import Toastify from "toastify-js";
 import { fetchCategoriesAsync } from "../features/categories/categories-slice";
+import { baseUrl } from "../../../Public/api/baseUrl";
 
 export default function EditGame() {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ export default function EditGame() {
     try {
       const { data } = await axios({
         method: "GET",
-        url: `http://localhost:3000/games/${id}`,
+        url: baseUrl + `/games/${id}`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
@@ -56,7 +57,7 @@ export default function EditGame() {
     try {
       const { data } = await axios({
         method: "PUT",
-        url: `http://localhost:3000/games/${id}`,
+        url: baseUrl + `/games/${id}`,
         data: {
           title,
           developer,

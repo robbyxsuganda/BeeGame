@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import gifLoading from "../assets/Pulse-1s-284px.svg";
 import Toastify from "toastify-js";
 import { fetchCategoriesAsync } from "../features/categories/categories-slice";
+import { baseUrl } from "../../../Public/api/baseUrl";
 
 export default function AddGame() {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ export default function AddGame() {
     try {
       const { data } = await axios({
         method: "POST",
-        url: "http://localhost:3000/games",
+        url: baseUrl + "/games",
         data: {
           title,
           developer,
