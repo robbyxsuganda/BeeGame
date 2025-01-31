@@ -116,7 +116,7 @@ class GameController {
         game,
       });
     } catch (error) {
-      // console.log(error, "error di cloudinary");
+      console.log(error, "error di cloudinary");
       next(error);
     }
   }

@@ -66,7 +66,7 @@ class Controller {
   static async updateOrderStatus(req, res, next) {
     try {
       const { orderId } = req.body;
-      console.log(orderId, "kakaaa");
+      // console.log(orderId, "kakaaa");
 
       // cari order bedasarkan order id
       const order = await Order.findOne({

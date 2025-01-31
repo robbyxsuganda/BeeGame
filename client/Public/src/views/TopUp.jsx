@@ -17,7 +17,7 @@ export default function TopUp() {
         method: "GET",
         url: `http://localhost:3000/pub/${id}`,
       });
-      console.log(data);
+      // console.log(data);
 
       setGame(data);
     } catch (error) {
@@ -35,7 +35,7 @@ export default function TopUp() {
         url: "http://localhost:3000/vouchers",
       });
 
-      console.log(data);
+      // console.log(data);
 
       setVouchers(data);
     } catch (error) {
