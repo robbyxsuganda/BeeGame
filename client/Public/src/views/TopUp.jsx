@@ -60,7 +60,7 @@ export default function TopUp() {
     try {
       const { data } = await axios(`http://localhost:3000/payment/midtrans`, config);
 
-      // console.log(data);
+      console.log(data, "kiko");
 
       window.snap.pay(data.transaction_token, {
         onSuccess: async function () {
