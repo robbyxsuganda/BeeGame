@@ -106,7 +106,11 @@ class GameController {
         resource_type: "auto",
       });
 
+      console.log(uploadResult, "uploadResult");
+
       const imageUrl = uploadResult.secure_url;
+
+      console.log(imageUrl, "imageurl");
 
       await game.update({ image: imageUrl });
 

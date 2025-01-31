@@ -9,6 +9,6 @@ router.get("/", GameController.read);
 router.get("/:id", GameController.readOne);
 router.put("/:id", authorization, GameController.update); // hanya admin yang bisa
 router.delete("/:id", authorization, GameController.delete); // hanya admin yang bisa
-router.patch("/:id", upload.single("file"), authorization, GameController.updateImage); // hanya admin yang bisa
+router.patch("/:id", authorization, upload.single("file"), GameController.updateImage); // hanya admin yang bisa
 
 module.exports = router;
